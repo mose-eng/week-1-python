@@ -1,0 +1,117 @@
+class Smartphone:
+    def __init__(self, brand, model, battery_life, storage, camera_quality):
+        # Constructor to initialize the smartphone object with unique values
+        self.brand = brand
+        self.model = model
+        self.battery_life = battery_life  # In hours
+        self.storage = storage  # In GB
+        self.camera_quality = camera_quality  # Megapixels
+        self.is_on = False  # To track if the phone is on or off
+
+    def power_on(self):
+        """Turn the smartphone on."""
+        self.is_on = True
+        print(f"{self.brand} {self.model} is now ON.")
+
+    def power_off(self):
+        """Turn the smartphone off."""
+        self.is_on = False
+        print(f"{self.brand} {self.model} is now OFF.")
+    
+    def make_call(self, phone_number):
+        """Simulate making a call."""
+        if self.is_on:
+            print(f"Dialing {phone_number} from {self.brand} {self.model}...")
+        else:
+            print("Phone is off. Please turn it on first.")
+
+    def send_message(self, phone_number, message):
+        """Simulate sending a text message."""
+        if self.is_on:
+            print(f"Sending message to {phone_number}: {message}")
+        else:
+            print("Phone is off. Please turn it on first.")
+    
+    def show_specs(self):
+        """Display the smartphone's specifications."""
+        print(f"Brand: {self.brand}")
+        print(f"Model: {self.model}")
+        print(f"Battery Life: {self.battery_life} hours")
+        print(f"Storage: {self.storage} GB")
+        print(f"Camera Quality: {self.camera_quality} MP")
+
+# Example of using the Smartphone class
+phone1 = Smartphone("Apple", "iPhone 15", 20, 128, 12)
+phone1.power_on()
+phone1.make_call("123-456-7890")
+phone1.show_specs()
+phone1.send_message("123-456-7890", "Hello!")
+phone1.power_off()
+
+
+class SmartphoneWith5G(Smartphone):
+    def __init__(self, brand, model, battery_life, storage, camera_quality, has_5g):
+        super().__init__(brand, model, battery_life, storage, camera_quality)
+        self.has_5g = has_5g
+
+    def enable_5g(self):
+        if self.has_5g:
+            print(f"5G enabled on {self.brand} {self.model}.")
+        else:
+            print(f"{self.brand} {self.model} does not support 5G.")
+
+class FoldableSmartphone(Smartphone):
+    def __init__(self, brand, model, battery_life, storage, camera_quality, is_folded):
+        super().__init__(brand, model, battery_life, storage, camera_quality)
+        self.is_folded = is_folded
+
+    def fold(self):
+        self.is_folded = True
+        print(f"{self.brand} {self.model} is now folded.")
+
+    def unfold(self):
+        self.is_folded = False
+        print(f"{self.brand} {self.model} is now unfolded.")
+
+# Example usage of subclasses
+phone2 = SmartphoneWith5G("Samsung", "Galaxy Z", 22, 256, 108, True)
+phone2.enable_5g()
+phone2.show_specs()
+
+phone3 = FoldableSmartphone("Samsung", "Galaxy Fold", 16, 512, 50, True)
+phone3.fold()
+phone3.unfold()
+phone3.show_specs()
+
+
+#polymophism
+class Vehicle:
+    def move(self):
+        """General move method, to be overridden by subclasses."""
+        raise NotImplementedError("Subclass must implement abstract method")
+
+class Car(Vehicle):
+    def move(self):
+        print("Driving 🚗")
+
+class Plane(Vehicle):
+    def move(self):
+        print("Flying ✈️")
+
+class Boat(Vehicle):
+    def move(self):
+        print("Sailing 🚤")
+
+# Function to test different vehicles
+def test_vehicle_movement(vehicle):
+    vehicle.move()
+
+# Example usage
+car = Car()
+plane = Plane()
+boat = Boat()
+
+test_vehicle_movement(car)  # Output: Driving 🚗
+test_vehicle_movement(plane)  # Output: Flying ✈️
+test_vehicle_movement(boat)  # Output: Sailing 🚤
+
