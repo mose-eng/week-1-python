@@ -1,0 +1,85 @@
+#data loading and cleaning
+import pandas as pd
+from sklearn.datasets import load_iris
+
+# Load Iris dataset
+iris = load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['species'] = iris.target_names[iris.target]
+
+# Display the first few rows of the dataset
+print(df.head())
+
+#explore structure and dataset
+# Check the data types and missing values
+print(df.info())
+
+#handle missing values
+# Fill missing values with the mean (for numerical columns)
+df.fillna(df.mean(), inplace=True)
+
+# Alternatively, you could drop rows with missing values
+# df.dropna(inplace=True)
+
+#basic data analysis
+# Compute basic statistics for numerical columns
+print(df.describe())
+
+# Group by species and compute mean of numerical columns
+grouped = df.groupby('species').mean()
+print(grouped)
+
+#data visualization
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Simulating a time-series (replace with your own data)
+import numpy as np
+time = pd.date_range(start='1/1/2020', periods=12, freq='M')
+sales = np.random.rand(12) * 1000
+
+# Line chart showing trend over time
+plt.figure(figsize=(10, 6))
+plt.plot(time, sales, marker='o', color='b')
+plt.title('Sales Trend Over Time')
+plt.xlabel('Month')
+plt.ylabel('Sales')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.show()
+
+# Bar chart showing comparison of mean petal length per species
+plt.figure(figsize=(10, 6))
+sns.barplot(x='species', y='petal length (cm)', data=df)
+plt.title('Average Petal Length by Species')
+plt.xlabel('Species')
+plt.ylabel('Average Petal Length (cm)')
+plt.show()
+
+# Histogram of petal length
+plt.figure(figsize=(10, 6))
+sns.histplot(df['petal length (cm)'], bins=20, kde=True, color='purple')
+plt.title('Distribution of Petal Length')
+plt.xlabel('Petal Length (cm)')
+plt.ylabel('Frequency')
+plt.show()
+
+# Scatter plot for sepal length vs petal length
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='sepal length (cm)', y='petal length (cm)', hue='species', data=df)
+plt.title('Sepal Length vs Petal Length')
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Petal Length (cm)')
+plt.legend(title='Species')
+plt.show()
+
+#error handling
+try:
+    df = pd.read_csv('your_dataset.csv')
+except FileNotFoundError:
+    print("Error: The dataset file was not found.")
+except pd.errors.EmptyDataError:
+    print("Error: The dataset is empty.")
+except pd.errors.ParserError:
+    print("Error: There was an issue with parsing the dataset.")
+
